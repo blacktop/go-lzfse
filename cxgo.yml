@@ -1,0 +1,43 @@
+# Specifies the root path for C files
+root: ./
+# Specifies the output path for Go files
+out: ./
+# Package name for Go files
+package: lzfse
+
+# Replace C int with Go int (the default is to use int32/int64)
+use_go_int: true
+
+# Allows to control identifier (type/variable/function) names and types
+idents:
+  - name: my_struct
+    rename: MyStruct
+
+# List of files to convert. Supports wildcards (*.c).
+files:
+  - name: lz*.c
+    # Allows to skip generating declarations by name
+    skip:
+      - free_struct
+    # The same as a top level 'idents', but only affects a specific file
+    idents:
+      - name: new_struct
+        rename: NewStruct
+    # Allows to replace code in the output Go file (in case cxgo is not smart enough)
+    replace:
+      # simplify declaration, just for an example
+      - old: 'var p *MyStruct ='
+        new: 'p :='
+  # - name: lz*.h
+  #   # Allows to skip generating declarations by name
+  #   skip:
+  #     - free_struct
+  #   # The same as a top level 'idents', but only affects a specific file
+  #   idents:
+  #     - name: new_struct
+  #       rename: NewStruct
+  #   # Allows to replace code in the output Go file (in case cxgo is not smart enough)
+  #   replace:
+  #     # simplify declaration, just for an example
+  #     - old: 'var p *MyStruct ='
+  #       new: 'p :='
